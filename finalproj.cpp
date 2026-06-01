@@ -296,10 +296,12 @@ int main() {
     //Display Results
     cout << fixed << setprecision(6);
     cout << GREEN << "\n--- Ideal (Theoretical) Values ---" << RESET << endl;
-    cout << "Ideal R: " << R_ideal << " | Ideal L: " << L_ideal << " | Ideal C: " << C_ideal << endl;
+    cout << "Ideal R: " << formatEngineering(R_ideal, "ohms")
+        << " | Ideal L: " << formatEngineering(L_ideal, "H")
+        << " | Ideal C: " << formatEngineering(C_ideal, "F") << endl;
 
     cout << GREEN << "\n--- Standard E12 (Market) Values ---" << RESET << endl;
-    cout << left << setw(25) << "Final Resistance:" << formatEngineering(R_real, "Ω") << endl;
+    cout << left << setw(25) << "Final Resistance:" << formatEngineering(R_real, "ohms") << endl;
     cout << left << setw(25) << "Final Inductance:" << formatEngineering(L_real, "H") << endl;
     cout << left << setw(25) << "Final Capacitance:" << formatEngineering(C_real, "F") << endl;
 
@@ -353,7 +355,7 @@ int main() {
     if (alpha == 0) { //the circuit is undamped 
         cout << "Circuit State: " << RED << "UNDAMPED" << RESET << endl;
     }
-    else if (abs(alpha - omega0) < 1e-9) { //the circuit is critically damped
+    else if (abs(alpha - omega0) / omega0 < 0.05) { //the circuit is critically damped
         cout << "Circuit State: " << GREEN << "CRITICALLY DAMPED" << RESET << endl;
     }
     else if (alpha < omega0) { //the circuit is underdamped 
@@ -370,7 +372,7 @@ int main() {
         cout << RED << "Error creating CSV file!" << RESET << endl;
         return 1;
     }
-    csvFile << "#Topology=" << (top == 1 ? "Series" : "Parallel") << "\n";
+
     csvFile << "Frequency(Hz),Impedance(Ohms)\n";
 
     cout << BLUE << "\n--- Generating Frequency Sweep Data (CSV) ---" << RESET << endl;
@@ -416,7 +418,7 @@ int main() {
         }
 
         //write to csv file
-        csvFile << f_sweep << "," << Z_mag << "\n";
+        csvFile << fixed << setprecision(4) << f_sweep << "," << Z_mag << "\n";
 
         //Track resonance point
         if (top == 1) {
@@ -437,7 +439,7 @@ int main() {
         // Only print every 10th value to console to keep it clean
         if (i % 10 == 0) {
             cout << left << setw(15) << formatEngineering(f_sweep, "Hz")
-                << " | " << formatEngineering(Z_mag, "Ω") << endl;
+                << " | " << formatEngineering(Z_mag, "ohms") << endl;
         }
     }
     csvFile.close();
@@ -463,6 +465,5 @@ int main() {
     cout << "Target Frequency: " << formatEngineering(frequency, "Hz") << endl;
     cout << "Resonant Frequency: " << formatEngineering(bestFreq, "Hz") << endl;
     cout << "Frequency Error: " << fixed << setprecision(2) << freqError << " %" << endl;
-    system("pause");
     return 0;
 }

@@ -1,0 +1,10 @@
+# Ignore local Visual Studio build directories
+x64/
+Debug/
+Release/
+
+# Ignore local Visual Studio project configuration files
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+.vs/
