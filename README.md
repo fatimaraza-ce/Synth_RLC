@@ -1,5 +1,7 @@
 # SYNTH-RLC
 
+[![Documentation](https://img.shields.io/badge/Documentation-Project%20Report-blue?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)](./docs/SYNTH_RLC_Project_Report.pdf)
+
 > **A C++ circuit synthesis engine that works backwards from a target frequency response; computing, mapping, and analyzing real RLC circuits.**
 
 Most circuit simulators (like LTspice) take a circuit and tell you how it behaves. SYNTH-RLC does the opposite: you give it the behavior you want, and it tells you what circuit to build.
